@@ -10,6 +10,8 @@ export 'src/cronet.dart';
 final DynamicLibrary Function() loadLibrary = () {
   if (Platform.isWindows) {
     return DynamicLibrary.open('cronet.86.0.4240.198.dll');
+  } else if (Platform.isMacOS) {
+    return DynamicLibrary.open('libcronet.86.0.4240.198.dylib');
   }
   throw UnimplementedError();
 };
