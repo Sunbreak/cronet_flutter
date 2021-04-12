@@ -32,6 +32,11 @@ flutter:
         pluginClass: CronetFlutterPlugin
       macos:
         pluginClass: CronetFlutterPlugin
+      ios:
+        pluginClass: CronetFlutterPlugin
+      android:
+        package: com.example.cronet_flutter
+        pluginClass: CronetFlutterPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
