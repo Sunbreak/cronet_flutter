@@ -22,7 +22,9 @@ final DynamicLibrary Function() loadLibrary = () {
 
 final _croNet = CroNet(loadLibrary());
 
-final DynamicLibrary nativeInteropLib = DynamicLibrary.process();
+final DynamicLibrary nativeInteropLib = Platform.isAndroid
+  ? DynamicLibrary.open('libcronet_flutter.so')
+  : DynamicLibrary.process();
 
 final int Function(int x, int y) nativeAdd = nativeInteropLib
     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>("native_add")
