@@ -20,4 +20,19 @@ A new flutter plugin project.
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
+
+  # telling CocoaPods not to remove framework
+  s.preserve_paths = 'Cronet.framework'
+
+  # telling linker to include framework
+  s.user_target_xcconfig = { 'OTHER_LDFLAGS' => '-framework Cronet' }
+
+  # including framework
+  s.vendored_frameworks = 'Cronet.framework'
+  
+  # including system libraries
+  s.libraries = 'c++', 'resolv'
+
+  # including system frameworks
+  s.frameworks = 'SystemConfiguration'
 end
