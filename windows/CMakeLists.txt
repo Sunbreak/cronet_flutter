@@ -6,6 +6,8 @@ project(${PROJECT_NAME} LANGUAGES C CXX)
 # not be changed
 set(PLUGIN_NAME "cronet_flutter_plugin")
 
+add_compile_definitions(DART_SHARED_LIB)
+
 add_library(${PLUGIN_NAME} SHARED
   "cronet_flutter_plugin.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/dart_api/dart_api_dl.c"

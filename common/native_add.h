@@ -5,7 +5,7 @@
 
 #if defined(__APPLE__)
 #include "dart_api.h"
-#elif
+#else
 #include "dart_api/dart_api.h"
 #endif
 
