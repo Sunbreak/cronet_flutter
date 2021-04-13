@@ -22,11 +22,24 @@ final DynamicLibrary Function() loadLibrary = () {
 
 final _croNet = CroNet(loadLibrary());
 
+final DynamicLibrary nativeInteropLib = Platform.isAndroid
+    ? DynamicLibrary.open('libcronet_flutter.so')
+    : Platform.isWindows
+        ? DynamicLibrary.open('cronet_flutter_plugin.dll')
+        : DynamicLibrary.process();
+
+final int Function(int x, int y) nativeAdd = nativeInteropLib
+    .lookup<NativeFunction<Int32 Function(Int32, Int32)>>("native_add")
+    .asFunction();
+
 class CronetFlutter {
   static String getVersionString() {
+    print('nativeAdd ${nativeAdd(1, 2)}');
     var enginePtr = _croNet.Cronet_Engine_Create();
     try {
-      return _croNet.Cronet_Engine_GetVersionString(enginePtr).cast<Utf8>().toDartString();
+      return _croNet.Cronet_Engine_GetVersionString(enginePtr)
+          .cast<Utf8>()
+          .toDartString();
     } finally {
       _croNet.Cronet_Engine_Destroy(enginePtr);
     }
