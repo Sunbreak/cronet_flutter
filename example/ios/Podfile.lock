@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  cronet_flutter: 2cbcfa075fc2758154df683c7a39adc7e57d8443
+  cronet_flutter: a0d53921f6c9c76d31af4d3a63fd8982be7de700
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
 
 PODFILE CHECKSUM: c828106a054d27aae8b2872e20bfd100c5f77425
