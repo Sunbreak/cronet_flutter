@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "sample_executor.h"
+#include "sample_executor.hh"
 
 SampleExecutor::SampleExecutor()
     : executor_thread_(SampleExecutor::ThreadLoop, this),
