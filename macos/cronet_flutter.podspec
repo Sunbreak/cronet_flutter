@@ -14,6 +14,7 @@ A new flutter plugin project.
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files     = 'Classes/**/*'
+  s.public_header_files = 'Classes/**/*.h'
   s.dependency 'FlutterMacOS'
 
   s.vendored_libraries = 'libcronet.86.0.4240.198.dylib'
@@ -24,4 +25,7 @@ A new flutter plugin project.
 
   # Fix symbol not found when without use_framework!
   s.user_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
+
+  # including system libraries
+  s.libraries = 'c++'
 end
