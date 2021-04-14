@@ -40,6 +40,25 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  child: Text('startRequest'),
+                  onPressed: () {
+                    var startRequest = CronetFlutter().startRequest('https://postman-echo.com/get?foo1=bar1&foo2=bar2');
+                    print('startRequest $startRequest');
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('stopRequest'),
+                  onPressed: () {
+                    CronetFlutter().stopRequest();
+                    print('stopRequest');
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

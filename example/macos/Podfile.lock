@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
-  cronet_flutter: 5f44fe5f6eeec93a62cf5fd947ba1bdac6e47445
+  cronet_flutter: 84dd4425c74ae18675d7ac51a6920d3500b8a302
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
 
 PODFILE CHECKSUM: 975729a1846d8540a9231feb3a7ce0a28be344c3
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.0
