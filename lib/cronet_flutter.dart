@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:flutter/widgets.dart';
 
 import 'src/cronet.dart';
 
@@ -28,13 +31,12 @@ final DynamicLibrary nativeInteropLib = Platform.isAndroid
         ? DynamicLibrary.open('cronet_flutter_plugin.dll')
         : DynamicLibrary.process();
 
-final int Function(int x, int y) nativeAdd = nativeInteropLib
-    .lookup<NativeFunction<Int32 Function(Int32, Int32)>>("native_add")
-    .asFunction();
+final _initializeApi = nativeInteropLib.lookupFunction<
+    IntPtr Function(Pointer<Void>),
+    int Function(Pointer<Void>)>("InitDartApiDL");
 
 class CronetFlutter {
   static String getVersionString() {
-    print('nativeAdd ${nativeAdd(1, 2)}');
     var enginePtr = _croNet.Cronet_Engine_Create();
     try {
       return _croNet.Cronet_Engine_GetVersionString(enginePtr)
@@ -49,11 +51,16 @@ class CronetFlutter {
 
   factory CronetFlutter() => _instance ??= CronetFlutter._();
 
+  late ReceivePort _receivePort;
+
+  late StreamSubscription _subscription;
+
   late Pointer<Cronet_Engine> _engine;
 
   late Pointer<SampleExecutor> _sampleExecutor;
 
   CronetFlutter._() {
+    _initNative();
     _engine = _croNet.Cronet_Engine_Create();
     _sampleExecutor = _SampleExecutor_Create();
   }
@@ -61,6 +68,32 @@ class CronetFlutter {
   void dispose() {
     _SampleExecutor_Destory(_sampleExecutor);
     _croNet.Cronet_Engine_Destroy(_engine);
+    _disposeNative();
+  }
+
+  void _initNative() {
+    WidgetsFlutterBinding.ensureInitialized();
+    var nativeInited = _initializeApi(NativeApi.initializeApiDLData);
+    // According to https://dart-review.googlesource.com/c/sdk/+/151525
+    // flutter-1.24.0-10.1.pre+ has `DART_API_DL_MAJOR_VERSION = 2`
+    assert(nativeInited == 0, 'DART_API_DL_MAJOR_VERSION != 2');
+    _receivePort = ReceivePort();
+    _subscription = _receivePort.listen(_handleNativeMessage);
+    _registerSendPort(_receivePort.sendPort.nativePort);
+  }
+
+  final _registerSendPort = nativeInteropLib.lookupFunction<
+      Void Function(Int64 sendPort),
+      void Function(int sendPort)>('RegisterSendPort');
+
+  void _disposeNative() {
+    // TODO _unregisterReceivePort(_receivePort.sendPort.nativePort);
+    _subscription.cancel();
+    _receivePort.close();
+  }
+
+  void _handleNativeMessage(dynamic message) {
+    print('_handleNativeMessage $message');
   }
 
   bool startEngine() {
