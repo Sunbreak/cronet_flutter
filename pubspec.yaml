@@ -1,6 +1,6 @@
 name: cronet_flutter
 description: A new flutter plugin project.
-version: 0.0.1
+version: 0.0.1+1
 repository: https://github.com/Sunbreak/cronet_flutter
 
 environment:
