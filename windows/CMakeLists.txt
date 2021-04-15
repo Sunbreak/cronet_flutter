@@ -12,7 +12,7 @@ add_compile_definitions(DART_SHARED_LIB)
 add_library(${PLUGIN_NAME} SHARED
   "cronet_flutter_plugin.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/dart_api/dart_api_dl.c"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../common/native_add.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../common/native_interop.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/sample_url_request_callback.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/sample_executor.cc"
 )

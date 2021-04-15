@@ -9,7 +9,7 @@ set_target_properties(lib_cronet PROPERTIES
 
 add_library(${PLUGIN_NAME} SHARED
   "../common/dart_api/dart_api_dl.c"
-  "../common/native_add.cpp"
+  "../common/native_interop.cpp"
   "../common/sample_url_request_callback.cc"
   "../common/sample_executor.cc"
 )

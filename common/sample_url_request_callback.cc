@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "native_interop.hpp"
+
 SampleUrlRequestCallback::SampleUrlRequestCallback()
     : callback_(Cronet_UrlRequestCallback_CreateWith(
           SampleUrlRequestCallback::OnRedirectReceived,
@@ -63,6 +65,12 @@ void SampleUrlRequestCallback::OnReadCompleted(Cronet_UrlRequestPtr request,
 void SampleUrlRequestCallback::OnSucceeded(Cronet_UrlRequestPtr request,
                                            Cronet_UrlResponseInfoPtr info) {
   std::cout << "OnSucceeded called." << std::endl;
+
+  Dart_CObject dart_object;
+  dart_object.type = Dart_CObject_kString;
+  dart_object.value.as_string = "OnSucceeded";
+  PostCObject(&dart_object);
+
   SignalDone(true);
 }
 
@@ -72,12 +80,24 @@ void SampleUrlRequestCallback::OnFailed(Cronet_UrlRequestPtr request,
   std::cout << "OnFailed called: " << Cronet_Error_message_get(error)
             << std::endl;
   last_error_message_ = Cronet_Error_message_get(error);
+
+  Dart_CObject dart_object;
+  dart_object.type = Dart_CObject_kString;
+  dart_object.value.as_string = "OnFailed";
+  PostCObject(&dart_object);
+
   SignalDone(false);
 }
 
 void SampleUrlRequestCallback::OnCanceled(Cronet_UrlRequestPtr request,
                                           Cronet_UrlResponseInfoPtr info) {
   std::cout << "OnCanceled called." << std::endl;
+
+  Dart_CObject dart_object;
+  dart_object.type = Dart_CObject_kString;
+  dart_object.value.as_string = "OnCanceled";
+  PostCObject(&dart_object);
+
   SignalDone(false);
 }
 
