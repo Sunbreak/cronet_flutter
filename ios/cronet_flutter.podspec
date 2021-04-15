@@ -14,6 +14,7 @@ A new flutter plugin project.
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
+  s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
 
@@ -24,8 +25,8 @@ A new flutter plugin project.
   # telling CocoaPods not to remove framework
   s.preserve_paths = 'Cronet.framework'
 
-  # telling linker to include framework
-  s.user_target_xcconfig = { 'OTHER_LDFLAGS' => '-framework Cronet' }
+  # telling linker to include framework & fix symbol not found when without use_framework!
+  s.user_target_xcconfig = { 'OTHER_LDFLAGS' => '-framework Cronet -ObjC -all_load' }
 
   # including framework
   s.vendored_frameworks = 'Cronet.framework'

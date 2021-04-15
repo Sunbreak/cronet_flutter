@@ -19,8 +19,47 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: ${CronetFlutter.getVersionString()}\n'),
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  child: Text('startEngine'),
+                  onPressed: () {
+                    var startEngine = CronetFlutter().startEngine();
+                    print('startEngine $startEngine');
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('shutdownEngine'),
+                  onPressed: () {
+                    var shutdownEngine = CronetFlutter().shutdownEngine();
+                    print('shutdownEngine $shutdownEngine');
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  child: Text('startRequest'),
+                  onPressed: () {
+                    var startRequest = CronetFlutter().startRequest('https://postman-echo.com/get?foo1=bar1&foo2=bar2');
+                    print('startRequest $startRequest');
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('stopRequest'),
+                  onPressed: () {
+                    CronetFlutter().stopRequest();
+                    print('stopRequest');
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
