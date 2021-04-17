@@ -20,6 +20,6 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(cronet_flutter_bundled_libraries
-  ""
+"${CMAKE_CURRENT_SOURCE_DIR}/libcronet.86.0.4240.198.so"
   PARENT_SCOPE
 )
