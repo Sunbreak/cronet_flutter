@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#if __GNUC__
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+#endif
+
 #include "sample_url_request_callback.hh"
 
 #include <iostream>
