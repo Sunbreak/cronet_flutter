@@ -8,6 +8,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import org.chromium.base.ContextUtils
 
 /** CronetFlutterPlugin */
 class CronetFlutterPlugin: FlutterPlugin, MethodCallHandler {
@@ -18,6 +19,8 @@ class CronetFlutterPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    System.loadLibrary("cronet.86.0.4240.198")
+    ContextUtils.initApplicationContext(flutterPluginBinding.applicationContext)
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "cronet_flutter")
     channel.setMethodCallHandler(this)
   }
