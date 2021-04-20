@@ -31,6 +31,8 @@ flutter:
         pluginClass: CronetFlutterPlugin
       macos:
         pluginClass: CronetFlutterPlugin
+      linux:
+        pluginClass: CronetFlutterPlugin
       ios:
         pluginClass: CronetFlutterPlugin
       android:

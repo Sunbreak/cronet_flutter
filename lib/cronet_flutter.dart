@@ -15,6 +15,8 @@ final DynamicLibrary Function() loadLibrary = () {
     return DynamicLibrary.open('cronet.86.0.4240.198.dll');
   } else if (Platform.isMacOS) {
     return DynamicLibrary.open('libcronet.86.0.4240.198.dylib');
+  } else if (Platform.isLinux) {
+    return DynamicLibrary.open('${Platform.environment['EXE_DIR_PATH']}/lib/libcronet.86.0.4240.198.so');
   } else if (Platform.isIOS) {
     return DynamicLibrary.process();
   } else if (Platform.isAndroid) {
