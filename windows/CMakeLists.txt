@@ -15,6 +15,7 @@ add_library(${PLUGIN_NAME} SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/native_interop.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/sample_url_request_callback.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/../common/sample_executor.cc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../common/sample_upload_data_provider.cc"
 )
 apply_standard_settings(${PLUGIN_NAME})
 set_target_properties(${PLUGIN_NAME} PROPERTIES

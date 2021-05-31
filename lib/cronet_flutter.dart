@@ -11,6 +11,7 @@ import 'src/cronet.dart';
 export 'src/cronet.dart';
 
 part 'src/sample_executor.dart';
+part 'src/sample_upload_data_provider.dart';
 part 'src/sample_url_request_callback.dart';
 
 final DynamicLibrary Function() loadLibrary = () {
@@ -125,12 +126,15 @@ class CronetFlutter {
 
   Pointer<SampleUrlRequestCallback> _sampleUrlRequestCallback = nullptr;
 
+  Pointer<SampleUploadDataProvider> _sampleUploadDataProvider = nullptr;
+
   bool startRequest(String url) {
     if (_urlRequest != nullptr || _sampleUrlRequestCallback != nullptr) {
       return false;
     }
 
     _sampleUrlRequestCallback = _SampleUrlRequestCallback_Create();
+    var _sampleUploadDataProvider = _SampleUploadDataProvider_Create();
     _urlRequest = _croNet.Cronet_UrlRequest_Create();
 
     var result = Cronet_RESULT.Cronet_RESULT_SUCCESS;
@@ -152,6 +156,10 @@ class CronetFlutter {
     }
     if (_sampleUrlRequestCallback != nullptr) {
       _SampleUrlRequestCallback_Destory(_sampleUrlRequestCallback);
+    }
+
+    if (_sampleUploadDataProvider != nullptr) {
+      _SampleUploadDataProvider_Destory(_sampleUploadDataProvider);
     }
   }
 

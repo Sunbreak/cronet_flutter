@@ -12,6 +12,7 @@ add_library(${PLUGIN_NAME} SHARED
   "../common/native_interop.cpp"
   "../common/sample_url_request_callback.cc"
   "../common/sample_executor.cc"
+  "../common/sample_upload_data_provider.cc"
 )
 
 target_include_directories(${PLUGIN_NAME} INTERFACE
