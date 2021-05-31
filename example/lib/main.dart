@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:cronet_flutter/cronet_flutter.dart';
@@ -46,7 +48,9 @@ class _MyAppState extends State<MyApp> {
                 ElevatedButton(
                   child: Text('startRequest'),
                   onPressed: () {
-                    var startRequest = CronetFlutter().startRequest('https://postman-echo.com/get?foo1=bar1&foo2=bar2');
+                    var startRequest = CronetFlutter().startRequest('https://postman-echo.com/post?foo1=bar1&foo2=bar2', jsonEncode({
+                      'var': 'val',
+                    }));
                     print('startRequest $startRequest');
                   },
                 ),

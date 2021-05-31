@@ -128,17 +128,18 @@ class CronetFlutter {
 
   Pointer<SampleUploadDataProvider> _sampleUploadDataProvider = nullptr;
 
-  bool startRequest(String url) {
+  bool startRequest(String url, String body) {
     if (_urlRequest != nullptr || _sampleUrlRequestCallback != nullptr) {
       return false;
     }
 
     _sampleUrlRequestCallback = _SampleUrlRequestCallback_Create();
-    var _sampleUploadDataProvider = _SampleUploadDataProvider_Create();
+    _sampleUploadDataProvider = _SampleUploadDataProvider_Create();
+    _SampleUploadDataProvider_SetData(_sampleUploadDataProvider, body.toNativeUtf8().cast(), body.length);
     _urlRequest = _croNet.Cronet_UrlRequest_Create();
 
     var result = Cronet_RESULT.Cronet_RESULT_SUCCESS;
-    result = _initUrlRequest(_urlRequest, url, _sampleUrlRequestCallback);
+    result = _initUrlRequest(_urlRequest, url, _sampleUrlRequestCallback, _sampleUploadDataProvider);
     if (result != Cronet_RESULT.Cronet_RESULT_SUCCESS) {
       return false;
     }
@@ -159,6 +160,8 @@ class CronetFlutter {
     }
 
     if (_sampleUploadDataProvider != nullptr) {
+      var data = _SampleUploadDataProvider_GetData(_sampleUploadDataProvider);
+      malloc.free(data);
       _SampleUploadDataProvider_Destory(_sampleUploadDataProvider);
     }
   }
@@ -167,14 +170,23 @@ class CronetFlutter {
     Pointer<Cronet_UrlRequest> urlRequest,
     String url,
     Pointer<SampleUrlRequestCallback> sampleUrlRequestCallback,
+    Pointer<SampleUploadDataProvider> sampleUploadDataProvider,
   ) {
     var urlRequestParams = _croNet.Cronet_UrlRequestParams_Create();
     var urlUtf8 = url.toNativeUtf8();
-    var httpMethodUtf8 = 'GET'.toNativeUtf8();
+    var httpMethodUtf8 = 'POST'.toNativeUtf8();
+    var header = _croNet.Cronet_HttpHeader_Create();
+    var headerNameUtf8 = 'Content-Type'.toNativeUtf8();
+    var headerValueUtf8 = 'application/json'.toNativeUtf8();
 
     try {
       _croNet.Cronet_UrlRequestParams_http_method_set(
           urlRequestParams, httpMethodUtf8.cast());
+      _croNet.Cronet_HttpHeader_name_set(header, headerNameUtf8.cast());
+      _croNet.Cronet_HttpHeader_value_set(header, headerValueUtf8.cast());
+      _croNet.Cronet_UrlRequestParams_request_headers_add(urlRequestParams, header);
+      _croNet.Cronet_UrlRequestParams_upload_data_provider_set(
+        urlRequestParams, _SampleUploadDataProvider_GetUploadDataProvider(sampleUploadDataProvider));
       return _croNet.Cronet_UrlRequest_InitWithParams(
         urlRequest,
         _engine,
@@ -188,6 +200,9 @@ class CronetFlutter {
       _croNet.Cronet_UrlRequestParams_Destroy(urlRequestParams);
       malloc.free(urlUtf8);
       malloc.free(httpMethodUtf8);
+      _croNet.Cronet_HttpHeader_Destroy(header);
+      malloc.free(headerNameUtf8);
+      malloc.free(headerValueUtf8);
     }
   }
 }
